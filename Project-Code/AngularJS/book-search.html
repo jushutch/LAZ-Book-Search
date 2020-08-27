@@ -1,0 +1,61 @@
+<div class="ng-scope">
+    <style type="text/css">
+        li a {
+            color: #0078d0;
+        }
+    </style>
+    <div class="containerX">
+        <div class="sectionHeading b-columns b-is-full b-is-variable b-is-1">
+            <div class="b-column b-is-narrow">
+                <a>
+                    <h2 class="noMargin">Find Books</h2>
+                </a>
+            </div>
+            <div class="b-column b-is-narrow">
+                <div class="search js-navMenuButton" id="searchNav">
+                    <label class="visuallyHidden" for="hsearchTerms">Search Resources</label>
+                    <input class="ui-autocomplete-input js-navMenuLink "
+                           type="search"
+                           name="searchTerms"
+                           ng-model="$ctrl.searchTerms"
+                           id="hsearchTerms"
+                           maxlength="50"
+                           value=""
+                           placeholder="Search Resources"
+                           autocomplete="off"
+                           ui-autocomplete="{source: '{{$ctrl.autocompleteSource}}', select: $ctrl.autocompleteSelect, minLength: 1}"
+                           ng-keydown="$ctrl.onKeydown($event)"
+                    style="width:200px;"/>
+                    <div class="inlineBlock">
+                        <button id="searchButton" class="btn" aria-label="Submit Search Button" ng-click="$ctrl.submitSearch()">
+                            <span class="icon icon-search" aria-hidden="true"></span>
+                            <span class="visuallyHidden">Search</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="b-column">
+                <hr class="noMargin"/>
+            </div>
+        </div>
+    </div>
+    <div style="height:{{$ctrl.itemHeight}}px;">
+        <div ng-if="$ctrl.hasBeenASearch">
+            <div ng-if="$ctrl.hasSearchResults()">
+                <div ng-if="$ctrl.resultsAreRecommended()" style="text-align:center; color:white;font-size:20px;">No results found for "{{$ctrl.failedSearchTerms}}", but here are some great books!</div>
+                <bookroom-slide-pane scroll-model="$ctrl.scrollModel"
+                                     item-width="$ctrl.itemWidth"
+                                     item-height="$ctrl.itemHeight"
+                                     viewport-items="$ctrl.viewportItems">
+                    <bookroom-slide-pane-item class="kidsSlider_container"
+                                              ng-repeat="resource in $ctrl.scrollModel.getItems()">
+                        <student-resource resource="resource" class="l-flexColumn"></student-resource>
+                    </bookroom-slide-pane-item>
+                </bookroom-slide-pane>
+            </div>
+            <div ng-if="!$ctrl.hasSearchResults()">
+                <div style="text-align:center; color:white;font-size:20px;">No search results, but check out the popular books below!</div>
+            </div>
+        </div>
+    </div>
+</div>
